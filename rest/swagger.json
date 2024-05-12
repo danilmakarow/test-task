@@ -1,0 +1,120 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Google Calendar API",
+    "description": "API for getting busy intervals in shared google calendars.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/calendar": {
+      "get": {
+        "summary": "Returns a list of busy intervals in provided Google Shared Calendar.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "calendarId",
+            "in": "query",
+            "description": "ID of the Google Shared Calendar.",
+            "required": true,
+            "type": "string",
+            "default": "e93cb362be36f5b8a6c3cb9db9eb90c133caee93b4b7650d347e6dd8fd5b4f00@group.calendar.google.com"
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "description": "Start time for querying busy intervals.",
+            "required": true,
+            "type": "string",
+            "format": "date",
+            "default": "2024-05-07"
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "description": "End time for querying busy intervals.",
+            "required": true,
+            "type": "string",
+            "format": "date",
+            "default": "2024-05-09"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "start": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "end": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Validation error message"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "example": "some-field"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid"
+                      }
+                    }
+                  }
+                },
+                "code": {
+                  "type": "number",
+                  "example": 400
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unexpected error message"
+                },
+                "code": {
+                  "type": "number",
+                  "example": 500
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
