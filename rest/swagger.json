@@ -83,7 +83,7 @@
                         "type": "string",
                         "example": "some-field"
                       },
-                      "message": {
+                      "errorMessage": {
                         "type": "string",
                         "example": "Invalid"
                       }

@@ -3,7 +3,7 @@
 node version: `20.12.2`, npm version: `10.5.0`
 
 ### Layers:
-Infrastructure layer logic is based in controller
+Infrastructure layer logic is based in controllers
 <br />
 Business logic is present in services
 

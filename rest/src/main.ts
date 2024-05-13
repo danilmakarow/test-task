@@ -1,10 +1,10 @@
 import express from "express";
 import { configDotenv } from "dotenv";
 import swaggerUi from "swagger-ui-express";
-import { router } from "./routing/router.js";
-import { Routes } from "./constants/routes.js";
-import { AppDefaultConfig } from "./constants/app-default-config.js";
-import swaggerDocument from "../swagger.json" with { type: "json" };
+import { router } from "./routing/router";
+import { Routes } from "./constants/routes";
+import { AppDefaultConfig } from "./constants/app-default-config";
+import swaggerDocument from "../swagger.json";
 
 configDotenv();
 
@@ -15,7 +15,7 @@ app.use(Routes.API_DOCS, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router(app);
 
-const port = process.env.PORT || AppDefaultConfig.PORT;
+const port = Number(process.env.PORT) || AppDefaultConfig.PORT;
 const host = process.env.APP_HOST || AppDefaultConfig.HOST;
 
 app.listen(port, host, () => {
