@@ -20,3 +20,6 @@ npm run start:dev
 
 ### Swagger:
 Api endpoints are documented using Swagger. To enter it application has to be started. The link to docs will be displayed in console
+
+### Environment variables:
+Project requires environment variables to work correctly. The example of `.env` is available as `.env.example`
