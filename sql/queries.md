@@ -76,6 +76,7 @@ VALUES
 (117, 4, 12, '2014-07-13'),
 (120, 5, 15, '2014-06-15');
 ```
+
 Select names of all empty test groups (group name starts with “TEST-”).
 ```
 SELECT name FROM "group" WHERE name ILIKE 'TEST-%'
@@ -84,6 +85,12 @@ AND id NOT IN (
     FROM "groupMembership"
 );
 ```
+The output:
+
+|name        |
+|------------|
+|TEST-QA-team|
+
 
 Select user first names and last names for the users that have Victor as a first name and are not members of any test groups (they may be members of other groups or have no membership in any groups at all).
 ```
@@ -95,6 +102,13 @@ AND "id" NOT IN (
     WHERE "group"."name" LIKE 'TEST-%'
 );
 ```
+The output:
+
+|firstName|lastName |
+|---------|---------|
+|Victor   |Tarasenko|
+
+
 Select users and groups for which user was created before the group for which he(she) is member of.
 ```
 SELECT "user"."id" AS "userID", "user"."firstName", "user"."lastName", "user"."created" AS "userCreated", "group"."id" AS "groupID", "group"."name", "group"."created" AS "groupCreated"
@@ -102,5 +116,9 @@ FROM "user"
 JOIN "groupMembership" ON "user"."id" = "groupMembership"."userID"
 JOIN "group" ON "groupMembership"."groupID" = "group"."id"
 WHERE "user"."created" < "group"."created";
-
 ```
+The output:
+
+|userID|firstName|lastName|userCreated            |groupID|name    |groupCreated           |
+|------|---------|--------|-----------------------|-------|--------|-----------------------|
+|4     |Sergiy   |Ivanenko|2010-02-02 00:00:00.000|12     |Dev team|2010-02-03 00:00:00.000|
