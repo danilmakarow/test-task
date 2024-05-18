@@ -2,14 +2,14 @@ import { Express } from "express";
 import { calendarController } from "../controllers/calendar.controller";
 import { Routes } from "../constants/routes";
 import { requestHandler } from "../handlers/request.handler";
-import { validate } from "../middlewares/validate.middleware";
+import { validateMiddleware } from "../middlewares/validate.middleware";
 import { CalendarRequestQueryDto } from "../dto/calendar-request-query.dto";
 
 export const router = (app: Express) => {
   app
     .route(Routes.CALENDAR)
     .get(
-      validate("query", CalendarRequestQueryDto),
+      validateMiddleware("query", CalendarRequestQueryDto),
       requestHandler.handle(
         calendarController.getBusyIntervals.bind(calendarController),
       ),

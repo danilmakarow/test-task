@@ -3,12 +3,13 @@ import { Request, Response } from "express";
 import { HttpStatus } from "../constants/http-status";
 import { Errors } from "../constants/errors";
 
-type TValidationTypes = "query" | "body";
+type TValidationDataSources = "query" | "body";
+type TDto = { new (): { [key in string]: any } };
 
-export const validate =
-  (type: TValidationTypes, Dto: { new (...args: any[]): any }) =>
+export const validateMiddleware =
+  (type: TValidationDataSources, dto: TDto) =>
   async (req: Request, res: Response, next: () => void) => {
-    const validator = new Dto();
+    const validator = new dto();
 
     for (const key in req[type]) {
       validator[key] = req[type][key];
@@ -22,13 +23,11 @@ export const validate =
         errorMessage: Object.values(constraints || {})[0],
       }));
 
-      res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({
-          message: Errors.VALIDADTION_ERROR,
-          code: HttpStatus.BAD_REQUEST,
-          errors: parsedErrors,
-        });
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: Errors.VALIDADTION_ERROR,
+        code: HttpStatus.BAD_REQUEST,
+        errors: parsedErrors,
+      });
 
       return;
     }
