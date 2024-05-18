@@ -14,9 +14,9 @@ CREATE TABLE "user" (
     "lastName" VARCHAR(255),
     "email" VARCHAR(255),
     "cultureID" INT,
-    "deleted" BOOLEAN,
+    "deleted" BIT,
     "country" VARCHAR(255),
-    "isRevokeAccess" BOOLEAN,
+    "isRevokeAccess" BIT,
     "created" TIMESTAMP
 );
 ```
@@ -24,13 +24,13 @@ Insert the data into the table:
 ```
 INSERT INTO "user" ("id", "firstName", "lastName", "email", "cultureID", "deleted", "country", "isRevokeAccess", "created")
 VALUES 
-(1, 'Victor', 'Shevchenko', 'vs@gmail.com', 1033, TRUE, 'US', FALSE, '2011-04-05'),
-(2, 'Oleksandr', 'Petrenko', 'op@gmail.com', 1034, FALSE, 'UA', FALSE, '2014-05-01'),
-(3, 'Victor', 'Tarasenko', 'vt@gmail.com', 1033, TRUE, 'US', TRUE, '2015-07-03'),
-(4, 'Sergiy', 'Ivanenko', 'sergiy@gmail.com', 1046, FALSE, 'UA', TRUE, '2010-02-02'),
-(5, 'Vitalii', 'Danilchenko', 'shumko@gmail.com', 1031, FALSE, 'UA', TRUE, '2014-05-01'),
-(6, 'Joe', 'Dou', 'joe@gmail.com', 1032, FALSE, 'US', TRUE, '2009-01-01'),
-(7, 'Marko', 'Polo', 'marko@gmail.com', 1033, TRUE, 'UA', TRUE, '2015-07-03');
+(1, 'Victor', 'Shevchenko', 'vs@gmail.com', 1033, B'1', 'US', B'0', '2011-04-05'),
+(2, 'Oleksandr', 'Petrenko', 'op@gmail.com', 1034,  B'0', 'UA',  B'0', '2014-05-01'),
+(3, 'Victor', 'Tarasenko', 'vt@gmail.com', 1033, B'1', 'US', B'1', '2015-07-03'),
+(4, 'Sergiy', 'Ivanenko', 'sergiy@gmail.com', 1046,  B'0', 'UA', B'1', '2010-02-02'),
+(5, 'Vitalii', 'Danilchenko', 'shumko@gmail.com', 1031,  B'0', 'UA', B'1', '2014-05-01'),
+(6, 'Joe', 'Dou', 'joe@gmail.com', 1032,  B'0', 'US', B'1', '2009-01-01'),
+(7, 'Marko', 'Polo', 'marko@gmail.com', 1033, B'1', 'UA', B'1', '2015-07-03');
 
 ```
 Create table “group” with the following structure:
