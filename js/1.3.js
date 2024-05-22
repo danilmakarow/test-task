@@ -8,8 +8,8 @@
 
 const isObject = (value) => typeof value === "object" && value !== null;
 
-const objectProjector = (src, proto, copyEmptyProto) => {
-  if (copyEmptyProto && !Object.keys(proto).length) {
+const objectProjector = (src, proto, copySrcIfProtoEmpty) => {
+  if (copySrcIfProtoEmpty && !Object.keys(proto).length) {
     return src;
   }
 
@@ -20,10 +20,7 @@ const objectProjector = (src, proto, copyEmptyProto) => {
       continue;
     }
 
-    const [isProtoObject, isSrcObject] = [
-      isObject(proto[key]),
-      isObject(src[key]),
-    ];
+    const [isProtoObject, isSrcObject] = [isObject(proto[key]), isObject(src[key])];
 
     if ((!isProtoObject && isSrcObject) || (!isProtoObject && !isSrcObject)) {
       projectedObj[key] = src[key];
@@ -64,7 +61,7 @@ const proto = {
 };
 
 console.log(objectProjector(src, proto));
-
+// Output:
 //{
 //   prop11: { prop112: { prop112: null } },
 //   prop22: null,
