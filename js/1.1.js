@@ -5,13 +5,13 @@
 (() => {
   const mlsInOneDay = 24 * 60 * 60 * 1000;
   const daysTo = function (otherDate) {
-    const mlsDifference = Math.abs(this - otherDate);
-    return Math.floor(mlsDifference / mlsInOneDay);
+    const mlsDifference = otherDate - this;
+    return Math.trunc(mlsDifference / mlsInOneDay);
   };
-  Date.prototype.daysTo = daysTo
+  Date.prototype.daysTo = daysTo;
 })();
 
-const d1 = new Date("2023-05-12");
-const d2 = new Date("2022-05-12");
+const d1 = new Date("2024-01-03");
+const d2 = new Date("2024-01-01T12:13:50.953Z");
 
 console.log(d1.daysTo(d2)); // 365

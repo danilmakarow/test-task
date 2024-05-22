@@ -6,26 +6,70 @@
 // Values of properties in projected object shall be the same
 // as values of respective properties in source object.
 
-const objectProjector = (src, proto) => {
+const isObject = (value) => typeof value === "object" && value !== null;
+
+const objectProjector = (src, proto, copyEmptyProto) => {
+  if (copyEmptyProto && !Object.keys(proto).length) {
+    return src;
+  }
+
   const projectedObj = {};
 
-  for (const key in proto) {
-    if (!(key in src)) {
+  for (const key in src) {
+    if (!(key in proto)) {
       continue;
     }
 
-    if (typeof proto[key] === "object" && proto[key] !== null) {
-      projectedObj[key] = objectProjector(src[key], proto[key]);
-      continue;
+    const [isProtoObject, isSrcObject] = [
+      isObject(proto[key]),
+      isObject(src[key]),
+    ];
+
+    if ((!isProtoObject && isSrcObject) || (!isProtoObject && !isSrcObject)) {
+      projectedObj[key] = src[key];
     }
 
-    projectedObj[key] = src[key];
+    if (isProtoObject && isSrcObject) {
+      projectedObj[key] = objectProjector(src[key], proto[key], true);
+    }
   }
 
   return projectedObj;
 };
 
-const src = { prop11: { prop21: 21, prop22: { prop31: 31, prop32: 32 } } };
-const proto = { prop11: { prop22: null } };
+const src = {
+  prop11: {
+    prop111: "value", //prop11.prop111
+    prop112: {
+      prop112: null, //prop11.prop112.prop112
+    },
+  },
+  prop22: null, //prop22
+  prop33: {
+    prop331: 1, //prop33.prop331
+    prop332: 2, //prop33.prop332
+  },
+};
 
-console.log(objectProjector(src, proto)); // { prop11: { prop22: { prop31: 31, prop32: 32 } } }
+const proto = {
+  prop11: {
+    prop22: null, //prop11.prop22
+    prop111: {
+      prop111: null, //prop11.prop111.prop111
+    },
+    prop112: null, //prop11.prop112
+  },
+  prop22: 2, //prop22
+  prop33: {}, //prop33
+};
+
+console.log(objectProjector(src, proto));
+
+//{
+//   prop11: { prop112: { prop112: null } },
+//   prop22: null,
+//   prop33: {
+//     prop331: 1,
+//     prop332: 2,
+//   }
+// }

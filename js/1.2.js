@@ -12,12 +12,25 @@ const inputArray = [
   { amount: 20000, quantity: 2 },
 ];
 
-const parseAndSortSales = (salesArr) => {
+// "asc" "desc"
+
+const SortOrders = {
+  ASC: "asc",
+  DESC: "desc",
+};
+
+const OrderFunctions = {
+  [SortOrders.ASC]: (a, b) => a.total - b.total,
+  [SortOrders.DESC]: (a, b) => b.total - a.total,
+};
+
+const parseAndSortSales = (salesArr, order) => {
   const parsedSales = salesArr.map((sale) => ({
     ...sale,
     total: sale.amount * sale.quantity,
   }));
-  return parsedSales.sort((a, b) => b.total - a.total);
+
+  return parsedSales.sort(OrderFunctions[order]);
 };
 
-console.log(parseAndSortSales(inputArray));
+console.log(parseAndSortSales(inputArray, SortOrders.ASC));
